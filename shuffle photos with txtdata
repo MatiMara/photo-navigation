@@ -1,0 +1,35 @@
+import os
+import shutil
+import random
+
+def shuffle_images_and_labels(input_folder, input_txt_folder, output_folder, output_txt_folder):
+    image_names = os.listdir(input_folder)
+    txt_names = os.listdir(input_txt_folder)
+
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    if not os.path.exists(output_txt_folder):
+        os.makedirs(output_txt_folder)
+
+    combined_data = list(zip(image_names, txt_names))
+    random.shuffle(combined_data)
+
+    for i, (image_name, txt_name) in enumerate(combined_data, start=1):
+        old_image_path = os.path.join(input_folder, image_name)
+        new_image_path = os.path.join(output_folder, f"{i}.jpg")
+
+        old_txt_path = os.path.join(input_txt_folder, txt_name)
+        new_txt_path = os.path.join(output_txt_folder, f"{i}.txt")
+
+        if os.path.exists(old_image_path) and os.path.exists(old_txt_path):
+            shutil.copy(old_image_path, new_image_path)
+            shutil.copy(old_txt_path, new_txt_path)
+
+if __name__ == "__main__":
+    shuffle_images_and_labels(
+        input_folder=r"C:\Users\mateu\Desktop\wykrywanie_rzeczy\modyfikacja",
+        input_txt_folder=r"C:\Users\mateu\Desktop\wykrywanie_rzeczy\modyfikacja_txt",
+        output_folder=r"C:\Users\mateu\Desktop\wykrywanie_rzeczy\modyfikacja_shuffle",
+        output_txt_folder=r"C:\Users\mateu\Desktop\wykrywanie_rzeczy\modyfikacja_shuffle_txt"
+    )
